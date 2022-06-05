@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from "./components/headers";
+import ImageCard from "./components/ImageCard";
+const images = [
+  {
+    id: "1",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+  {
+    id: "2",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+  {
+    id: "3",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+  {
+    id: "4",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+  {
+    id: "5",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+  {
+    id: "6",
+    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
+  },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className="grid grid-cols-5 gap-4 mt-10 ml-10 mr-10">
+        {images.map((image) => (
+          <ImageCard key={image.id} image={image} />
+        ))}
+      </div>
+    </>
   );
 }
 
