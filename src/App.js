@@ -1,43 +1,16 @@
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/headers";
-import ImageCard from "./components/ImageCard";
-const images = [
-  {
-    id: "1",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "2",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "3",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "4",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "5",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "6",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-];
+import HomePage from "./Screen/HomePage";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      <div className="grid grid-cols-5 gap-4 mt-10 ml-10 mr-10">
-        {images.map((image) => (
-          <ImageCard key={image.id} image={image} />
-        ))}
-      </div>
-    </>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
