@@ -38,7 +38,6 @@ const ImageCard = ({ image }) => {
             emptyColor="gray"
           />
         </div>
-        {/* <Rating name="no-value" value={null} /> */}
       </div>
     </div>
   );

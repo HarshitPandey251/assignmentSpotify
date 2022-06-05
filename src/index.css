@@ -19,3 +19,7 @@ code {
 svg.star-svg {
   display: inline;
 }
+
+.primary-bg {
+  background-color: #9a56f2;
+}
