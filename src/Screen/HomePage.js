@@ -32,18 +32,18 @@ const images = [
 const HomePage = () => {
   return (
     <div className="ml-10 mr-10">
-      <div class="flex justify-between mt-5">
-        <div class="mb-3 xl:w-96">
-          <div class="input-group relative flex items-stretch w-full mb-4">
+      <div className="flex justify-between mt-5">
+        <div className="mb-3 xl:w-96">
+          <div className="input-group relative flex items-stretch w-full mb-4">
             <input
               type="search"
-              class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Search"
               aria-label="Search"
               aria-describedby="button-addon2"
             />
             <button
-              class="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+              className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
               type="button"
               id="button-addon2"
             >
@@ -52,7 +52,7 @@ const HomePage = () => {
                 focusable="false"
                 data-prefix="fas"
                 data-icon="search"
-                class="w-4"
+                className="w-4"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -66,7 +66,7 @@ const HomePage = () => {
           </div>
         </div>
         <Link to={"addsong"}>
-          <button class="px-4 h-11 text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150">
+          <button className="px-4 h-11 text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150">
             <AddIcon /> Add Song
           </button>
         </Link>

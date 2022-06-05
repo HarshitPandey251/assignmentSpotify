@@ -1,115 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import AddArtist from "../components/AddArtist";
 
 const AddSong = () => {
+  const [showpopup, setshowPopUp] = useState(false);
+  console.log(showpopup);
   return (
-    <div className="ml-20 mt-10">
-      <h2 className="text-3xl mb-10 font-semibold">Add a new Song</h2>
-      <form className="w-full max-w-3xl bg-white shadow-xl rounded-md py-10 px-10">
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label
-              className="block md:text-left mb-1 md:mb-0 pr-4"
-              for="inline-full-name"
-            >
-              Song Name
-            </label>
-          </div>
-          <div className="md:w-2/3">
-            <input
-              className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              id="inline-full-name"
-              type="text"
-              value=""
-            />
-          </div>
-        </div>
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label
-              className="block md:text-left mb-1 md:mb-0 pr-4"
-              for="inline-password"
-            >
-              Date Released
-            </label>
-          </div>
-          <div className="md:w-2/3">
-            <input
-              className=" appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              id="inline-password"
-              type="date"
-            />
-          </div>
-        </div>
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label
-              className="block md:text-left mb-1 md:mb-0 pr-4"
-              for="inline-password"
-            >
-              Artwork
-            </label>
-          </div>
-          <div className="md:w-2/3">
-            <div className="w-full flex">
+    <>
+      <div className="ml-20 mt-10">
+        <h2 className="text-3xl mb-10 font-semibold">Add a new Song</h2>
+        <form className="w-full max-w-3xl bg-white shadow-xl rounded-md py-10 px-10">
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
               <label
-                for="uploadfile"
-                className="px-7 w-1/2 py-2 bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 text-white text-center rounded cursor-pointer"
+                className="block md:text-left mb-1 md:mb-0 pr-4"
+                for="inline-full-name"
               >
-                <DriveFolderUploadIcon /> Upload Image
+                Song Name
               </label>
+            </div>
+            <div className="md:w-2/3">
               <input
-                type="file"
-                id="uploadfile"
-                accept="csv"
-                className="w-1/2"
-                style={{ display: "none" }}
+                className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                id="inline-full-name"
+                type="text"
+                value=""
               />
             </div>
           </div>
-        </div>
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
+              <label
+                className="block md:text-left mb-1 md:mb-0 pr-4"
+                for="inline-password"
+              >
+                Date Released
+              </label>
+            </div>
+            <div className="md:w-2/3">
+              <input
+                className=" appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                id="inline-password"
+                type="date"
+              />
+            </div>
+          </div>
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
+              <label
+                className="block md:text-left mb-1 md:mb-0 pr-4"
+                for="inline-password"
+              >
+                Artwork
+              </label>
+            </div>
+            <div className="md:w-2/3">
+              <div className="w-full flex">
+                <label
+                  for="uploadfile"
+                  className="px-7 w-1/2 py-2 bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 text-white text-center rounded cursor-pointer"
+                >
+                  <DriveFolderUploadIcon /> Upload Image
+                </label>
+                <input
+                  type="file"
+                  id="uploadfile"
+                  accept="csv"
+                  className="w-1/2"
+                  style={{ display: "none" }}
+                />
+              </div>
+            </div>
+          </div>
 
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label
-              className="block md:text-left mb-1 md:mb-0 pr-4"
-              for="inline-password"
-            >
-              Artists
-            </label>
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
+              <label
+                className="block md:text-left mb-1 md:mb-0 pr-4"
+                for="inline-password"
+              >
+                Artists
+              </label>
+            </div>
+            <div className="md:w-2/4">
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={top100Films}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </div>
+            <div className="md:w-1/6">
+              <div
+                className="px-1.5 h-11 text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 cursor-pointer"
+                onClick={() => setshowPopUp(true)}
+              >
+                <AddIcon /> Add Artist
+              </div>
+            </div>
           </div>
-          <div className="md:w-2/4">
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={top100Films}
-              sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Movie" />}
-            />
-          </div>
-          <div className="md:w-1/6">
-            <button className="px-1.5 h-11 text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 ">
-              <AddIcon /> Add Artist
-            </button>
-          </div>
-        </div>
 
-        <div className="md:flex md:items-center mt-10">
-          <div className="md:w-1/3"></div>
-          <div className="md:w-2/3">
-            <button
-              className="shadow bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 focus:shadow-outline focus:outline-none text-white py-2 px-4 rounded"
-              type="button"
-            >
-              Create
-            </button>
+          <div className="md:flex md:items-center mt-10">
+            <div className="md:w-1/3"></div>
+            <div className="md:w-2/3">
+              <button
+                className="shadow bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 focus:shadow-outline focus:outline-none text-white py-2 px-4 rounded"
+                type="button"
+              >
+                Create
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+      {showpopup === true && <AddArtist setshowPopUp={setshowPopUp} />}
+    </>
   );
 };
 
