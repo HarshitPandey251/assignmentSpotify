@@ -40,6 +40,7 @@ Major frameworks/libraries used in the project.
 * [Tailwind CSS](https://svelte.dev/)
 * [NodeJS](https://laravel.com)
 * [MySQL](https://getbootstrap.com)
+* [Cloudinary](https://getbootstrap.com)
 
 ### ScreenShot
 
