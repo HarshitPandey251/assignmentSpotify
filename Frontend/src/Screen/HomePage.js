@@ -78,7 +78,7 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        <Link to={"addsong"}>
+        <Link to={"/addsong"}>
           <button className="px-4 h-11 text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150">
             <AddIcon /> Add Song
           </button>

@@ -10,7 +10,7 @@ const ImageCard = ({ image }) => {
   };
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg hover:-translate-y-0.5 hover:shadow duration-200">
-      <img src={image?.coverUrl} alt="" className="w-full h-3/6" />
+      <img src={image?.coverUrl} alt="" className="w-full h-40" />
       <div className="px-6 py-4">
         <div className="flex">
           <div className="h-4 w-6 bg-blue-600 rounded mb-2">
