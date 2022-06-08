@@ -5,10 +5,6 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import AddArtist from "../components/AddArtist";
 import { CREATE_NEW_SONG_API, FETCH_ARTIST_API } from "../components/API";
-import S3 from "react-aws-s3";
-import { Config } from "../S3/aws";
-
-const ReactS3Client = new S3(Config);
 
 function createSong(SongName, ReleaseDate, CoverUrl, ArtistId) {
   return fetch(CREATE_NEW_SONG_API, {
@@ -34,7 +30,7 @@ function getAllArtist() {
   });
 }
 
-const AddSong = () => {
+const UserRegister = () => {
   const [showpopup, setshowPopUp] = useState(false);
   const [songName, setsongName] = useState("");
   const [dob, setDob] = useState("");
@@ -67,10 +63,10 @@ const AddSong = () => {
     fetchData();
   }, [showpopup]);
 
-  const createSongAPI = async (url) => {
+  const createSongAPI = async (active) => {
     setIsSubmitting(true);
     try {
-      const response = await createSong(songName, dob, url, artistId);
+      const response = await createSong(songName, dob, coverletter, artistId);
       const { status, message } = await response.json();
       if (status) {
         setIsSubmitting(false);
@@ -81,17 +77,6 @@ const AddSong = () => {
     } catch (e) {
       setIsSubmitting(false);
     }
-  };
-
-  const uploadImage = () => {
-    var newFileName = "Song" + "-" + coverletter.name;
-    ReactS3Client.uploadFile(coverletter, newFileName)
-      .then((data) => {
-        createSongAPI(data.location);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 
   return (
@@ -206,7 +191,7 @@ const AddSong = () => {
               <button
                 className="shadow bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 duration-150 focus:shadow-outline focus:outline-none text-white py-2 px-4 rounded"
                 type="button"
-                onClick={() => uploadImage()}
+                onClick={() => createSongAPI()}
               >
                 Create
               </button>
@@ -219,4 +204,4 @@ const AddSong = () => {
   );
 };
 
-export default AddSong;
+export default UserRegister;

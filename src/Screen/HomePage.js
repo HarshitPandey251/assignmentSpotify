@@ -1,35 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ImageCard from "../components/ImageCard";
-const images = [
-  {
-    id: "1",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "2",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "3",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "4",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "5",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-  {
-    id: "6",
-    webformatURL: "https://source.unsplash.com/user/c_v_r/1900x800",
-  },
-];
+import { FETCH_SONG_API } from "../components/API";
+
+function getAllSong() {
+  return fetch(FETCH_SONG_API, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+    },
+  });
+}
 
 const HomePage = () => {
+  const [allsong, setallSong] = useState([]);
+  const [userupdated, setUserUpdated] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitting(true);
+    async function fetchData() {
+      try {
+        const response = await getAllSong();
+        const { status, getallsongDetails } = await response.json();
+
+        if (status) {
+          setallSong(getallsongDetails);
+          setIsSubmitting(false);
+        } else if (status === false) {
+          setIsSubmitting(false);
+        } else {
+          setIsSubmitting(false);
+        }
+      } catch (e) {
+        setIsSubmitting(false);
+      }
+    }
+    fetchData();
+  }, [userupdated]);
+
   return (
     <div className="ml-10 mr-10">
       <div className="flex justify-between mt-5">
@@ -72,7 +82,7 @@ const HomePage = () => {
         </Link>
       </div>
       <div className="grid grid-cols-5 gap-4 mt-10">
-        {images.map((image) => (
+        {allsong.map((image) => (
           <ImageCard key={image.id} image={image} />
         ))}
       </div>

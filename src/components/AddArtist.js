@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { CREATE_NEW_ARTIST_API } from "../components/API";
+
+function createArtist(artistname, dob, bio) {
+  return fetch(CREATE_NEW_ARTIST_API, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+    },
+    body: JSON.stringify({
+      artistname,
+      dob,
+      bio,
+    }),
+  });
+}
 
 const AddArtist = ({ setshowPopUp }) => {
+  const [artistname, setArtistName] = useState("");
+  const [dob, setDob] = useState("");
+  const [bio, setBio] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const changeUserStatus = async (active) => {
+    setIsSubmitting(true);
+    try {
+      const response = await createArtist(artistname, dob, bio);
+      const { status, message } = await response.json();
+      if (status) {
+        setIsSubmitting(false);
+        setshowPopUp(false);
+      } else {
+        setIsSubmitting(false);
+      }
+    } catch (e) {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="absolute top-0 left-0 w-full backdrop-blur-sm backdrop-brightness-75 min-h-screen h-full bg-transparent flex items-center justify-center">
       <div className="w-1/2 bg-white rounded-lg dialog-shadow">
@@ -43,7 +79,8 @@ const AddArtist = ({ setshowPopUp }) => {
                   className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                   id="inline-full-name"
                   type="text"
-                  value=""
+                  value={artistname}
+                  onChange={(e) => setArtistName(e.target.value)}
                 />
               </div>
             </div>
@@ -61,6 +98,8 @@ const AddArtist = ({ setshowPopUp }) => {
                   className=" appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                   id="inline-password"
                   type="date"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
                 />
               </div>
             </div>
@@ -79,13 +118,17 @@ const AddArtist = ({ setshowPopUp }) => {
                   className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                   id="inline-full-name"
                   type="text"
-                  value=""
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
                 />
               </div>
             </div>
           </form>
           <div className="w-full flex justify-center items-center space-x-4">
-            <button className="rounded-lg flex text-white bg-blue-600 w-1/3 justify-center py-2 mt-4 items-center px-6 text-white">
+            <button
+              className="rounded-lg flex text-white bg-blue-600 w-1/3 justify-center py-2 mt-4 items-center px-6 text-white"
+              onClick={() => changeUserStatus()}
+            >
               Create Artist
             </button>
           </div>
