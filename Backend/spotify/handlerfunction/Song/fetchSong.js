@@ -29,7 +29,10 @@ const fetchSongHandler = async (event, context, callback) => {
           connection.getConnection((error, connections) => {
             if (error) throw error;
             connections.query(
-              `select * from Song`,
+              `select Song.ID, Song.songName, Song.releaseDate, Song.coverUrl, Song.totalRating, Song.totalRatingUser, Artist.ArtistName 
+              from ArtistSong
+              LEFT JOIN Song on ArtistSong.songId = Song.ID
+              LEFT JOIN Artist on ArtistSong.artistId = Artist.ID`,
               function (err, result, fields) {
                 if (err) {
                   reject(err);
