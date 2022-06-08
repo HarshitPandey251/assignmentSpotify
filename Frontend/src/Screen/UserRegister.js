@@ -53,6 +53,7 @@ const UserRegister = () => {
             type="text"
             placeholder="Enter your email id"
             value={email}
+            required={true}
             onChange={(e) => setEmail(e.target.value)}
           />
           <label>Password</label>

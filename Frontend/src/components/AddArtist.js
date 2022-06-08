@@ -26,21 +26,31 @@ const AddArtist = ({ setshowPopUp }) => {
   const [bio, setBio] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [artistnameeerror, setartistNameerror] = useState(false);
+  const [doberror, setDoberror] = useState(false);
+  const [bioerror, setBioerror] = useState(false);
+
   const changeUserStatus = async (active) => {
-    setIsSubmitting(true);
-    try {
-      const response = await createArtist(artistname, dob, bio);
-      const { status, message } = await response.json();
-      if (status) {
+    if (artistname === "" || dob === "" || bio === "") {
+      setartistNameerror(artistname === "" ? true : false);
+      setDoberror(dob === "" ? true : false);
+      setBioerror(bio === "" ? true : false);
+    } else {
+      setIsSubmitting(true);
+      try {
+        const response = await createArtist(artistname, dob, bio);
+        const { status, message } = await response.json();
+        if (status) {
+          setIsSubmitting(false);
+          setshowPopUp(false);
+          toast.success("Artist Created!", { autoClose: 2000 });
+        } else {
+          setIsSubmitting(false);
+          toast.success(message, { autoClose: 2000 });
+        }
+      } catch (e) {
         setIsSubmitting(false);
-        setshowPopUp(false);
-        toast.success("Artist Created!", { autoClose: 2000 });
-      } else {
-        setIsSubmitting(false);
-        toast.success(message, { autoClose: 2000 });
       }
-    } catch (e) {
-      setIsSubmitting(false);
     }
   };
 
@@ -88,6 +98,14 @@ const AddArtist = ({ setshowPopUp }) => {
                   value={artistname}
                   onChange={(e) => setArtistName(e.target.value)}
                 />
+                {artistnameeerror !== false && (
+                  <label
+                    className="block md:text-left text-xs"
+                    style={{ color: "red" }}
+                  >
+                    please insert Artist name
+                  </label>
+                )}
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -107,6 +125,14 @@ const AddArtist = ({ setshowPopUp }) => {
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
                 />
+                {doberror !== false && (
+                  <label
+                    className="block md:text-left text-xs"
+                    style={{ color: "red" }}
+                  >
+                    please select date
+                  </label>
+                )}
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -127,6 +153,14 @@ const AddArtist = ({ setshowPopUp }) => {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
+                {bioerror !== false && (
+                  <label
+                    className="block md:text-left text-xs"
+                    style={{ color: "red" }}
+                  >
+                    please insert Bio
+                  </label>
+                )}
               </div>
             </div>
           </form>

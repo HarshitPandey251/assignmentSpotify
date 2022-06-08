@@ -43,6 +43,11 @@ const AddSong = () => {
   const [coverletter, setCoverLetter] = useState("");
   const [artistId, setArtistId] = useState("");
 
+  const [songNameerror, setsongNameerror] = useState(false);
+  const [doberror, setDoberror] = useState(false);
+  const [coverlettererror, setCoverLettererror] = useState(false);
+  const [artistIderror, setArtistIderror] = useState(false);
+
   const [artistdata, setArtist] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -87,20 +92,32 @@ const AddSong = () => {
   };
 
   const uploadImage = () => {
-    const data = new FormData();
-    data.append("file", coverletter);
-    data.append("upload_preset", "asqhr6fl");
-    data.append("cloud_name", "harshitpandey251");
+    if (
+      songName === "" ||
+      dob === "" ||
+      coverletter === "" ||
+      artistId === ""
+    ) {
+      setsongNameerror(songName === "" ? true : false);
+      setDoberror(dob === "" ? true : false);
+      setCoverLettererror(coverletter === "" ? true : false);
+      setArtistIderror(artistId === "" ? true : false);
+    } else {
+      const data = new FormData();
+      data.append("file", coverletter);
+      data.append("upload_preset", "asqhr6fl");
+      data.append("cloud_name", "harshitpandey251");
 
-    fetch("https://api.cloudinary.com/v1_1/harshitpandey251/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        createSongAPI(data.url);
+      fetch("https://api.cloudinary.com/v1_1/harshitpandey251/image/upload", {
+        method: "post",
+        body: data,
       })
-      .catch((err) => console.log(err));
+        .then((resp) => resp.json())
+        .then((data) => {
+          createSongAPI(data.url);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -123,8 +140,19 @@ const AddSong = () => {
                 id="inline-full-name"
                 type="text"
                 value={songName}
-                onChange={(e) => setsongName(e.target.value)}
+                onChange={(e) => {
+                  setsongName(e.target.value);
+                  setsongNameerror(false);
+                }}
               />
+              {songNameerror !== false && (
+                <label
+                  className="block md:text-left text-xs"
+                  style={{ color: "red" }}
+                >
+                  please insert song name
+                </label>
+              )}
             </div>
           </div>
           <div className="md:flex md:items-center mb-6">
@@ -142,8 +170,19 @@ const AddSong = () => {
                 id="inline-password"
                 type="date"
                 value={dob}
-                onChange={(e) => setDob(e.target.value)}
+                onChange={(e) => {
+                  setDob(e.target.value);
+                  setDoberror(false);
+                }}
               />
+              {doberror !== false && (
+                <label
+                  className="block md:text-left text-xs"
+                  style={{ color: "red" }}
+                >
+                  please insert date released
+                </label>
+              )}
             </div>
           </div>
           <div className="md:flex md:items-center mb-6">
@@ -169,7 +208,10 @@ const AddSong = () => {
                   accept="csv"
                   className="w-1/2"
                   style={{ display: "none" }}
-                  onChange={(e) => setCoverLetter(e.target.files[0])}
+                  onChange={(e) => {
+                    setCoverLetter(e.target.files[0]);
+                    setCoverLettererror(false);
+                  }}
                 />
               </div>
               <label
@@ -178,6 +220,14 @@ const AddSong = () => {
               >
                 {coverletter?.name}
               </label>
+              {coverlettererror !== false && (
+                <label
+                  className="block md:text-left text-xs"
+                  style={{ color: "red" }}
+                >
+                  please select artwork
+                </label>
+              )}
             </div>
           </div>
 
@@ -200,6 +250,7 @@ const AddSong = () => {
                   sx={{ width: 300 }}
                   onChange={(event, newValue) => {
                     setArtistId(newValue?.ID);
+                    setArtistIderror(false);
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -214,6 +265,14 @@ const AddSong = () => {
               </div>
             </div>
           </div>
+          {artistIderror !== false && (
+            <label
+              className="block md:text-left text-xs"
+              style={{ color: "red" }}
+            >
+              please select artist
+            </label>
+          )}
 
           <div className="md:flex md:items-center mt-10">
             <div className="md:w-1/3"></div>
