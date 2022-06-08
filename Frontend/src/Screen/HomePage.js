@@ -21,9 +21,11 @@ const HomePage = () => {
   const [allsong, setallSong] = useState([]);
   const [userupdated, setUserUpdated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRating, setIsRating] = useState(false);
 
   useEffect(() => {
     setIsSubmitting(true);
+    console.log("data");
     async function fetchData() {
       try {
         const response = await getAllSong();
@@ -41,7 +43,7 @@ const HomePage = () => {
       }
     }
     fetchData();
-  }, [userupdated]);
+  }, [userupdated, isRating]);
 
   return (
     <div className="ml-10 mr-10">
@@ -86,7 +88,12 @@ const HomePage = () => {
       </div>
       <div className="grid grid-cols-5 gap-4 mt-10">
         {allsong.map((image) => (
-          <ImageCard key={image.id} image={image} />
+          <ImageCard
+            key={image.id}
+            image={image}
+            isRating={isRating}
+            setIsRating={setIsRating}
+          />
         ))}
       </div>
       <ToastContainer />

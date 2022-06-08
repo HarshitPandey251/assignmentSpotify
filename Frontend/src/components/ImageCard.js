@@ -1,12 +1,42 @@
 import React from "react";
 import { Rating } from "react-simple-star-rating";
+import { RATING_SONG } from "../components/API";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const ImageCard = ({ image }) => {
+function rateSong(SongId, rating) {
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(RATING_SONG(SongId), {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+      body: JSON.stringify({
+        rating,
+      }),
+    });
+  }
+}
+
+const ImageCard = ({ image, isRating, setIsRating }) => {
   const [value, setValue] = React.useState(0);
 
   // Catch Rating value
   const handleRating = (rate) => {
     setValue(rate);
+  };
+
+  const rateSongAPI = async (url) => {
+    try {
+      const response = await rateSong(url, value / 20);
+      const { status, message } = await response.json();
+      if (status) {
+        setIsRating(!isRating);
+        toast.success("Song Rated Succesfully!", { autoClose: 2000 });
+      } else {
+        toast.success(message, { autoClose: 2000 });
+      }
+    } catch (e) {}
   };
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg hover:-translate-y-0.5 hover:shadow duration-200">
@@ -33,6 +63,7 @@ const ImageCard = ({ image }) => {
           {image?.releaseDate}
         </div>
         <div className="flex mb-4">
+          <p className="mr-5 mt-1">rate us </p>
           <Rating
             onClick={handleRating}
             ratingValue={value}
@@ -43,6 +74,9 @@ const ImageCard = ({ image }) => {
             emptyColor="gray"
           />
         </div>
+        {value !== 0 && (
+          <button onClick={() => rateSongAPI(image?.ID)}>Submit </button>
+        )}
       </div>
     </div>
   );
