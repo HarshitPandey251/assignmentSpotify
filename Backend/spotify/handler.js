@@ -1,15 +1,43 @@
 "use strict";
+// Artist API
+const createArtistHandler = require("./handlerfunction/Artist/createArtist");
+const fetchArtistHandler = require("./handlerfunction/Artist/fetchArtist");
 
-module.exports.hello = async (event) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: "Go Serverless v1.0! Your function executed successfully!",
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+// User API
+const userLoginHandler = require("./handlerfunction/User/userLogin");
+const userRegisterHandler = require("./handlerfunction/User/userRegister");
+
+//Song API
+const createSongHandler = require("./handlerfunction/Song/createSong");
+const fetchSongHandler = require("./handlerfunction/Song/fetchSong");
+
+//rating API
+const ratingSongHandler = require("./handlerfunction/Rating/ratingSong");
+
+module.exports.createArtist = async (event, context, callback) => {
+  await createArtistHandler(event, context, callback);
+};
+
+module.exports.fetchArtist = async (event, context, callback) => {
+  await fetchArtistHandler(event, context, callback);
+};
+
+module.exports.userLogin = async (event, context, callback) => {
+  await userLoginHandler(event, context, callback);
+};
+
+module.exports.userRegister = async (event, context, callback) => {
+  await userRegisterHandler(event, context, callback);
+};
+
+module.exports.createSong = async (event, context, callback) => {
+  await createSongHandler(event, context, callback);
+};
+
+module.exports.fetchSong = async (event, context, callback) => {
+  await fetchSongHandler(event, context, callback);
+};
+
+module.exports.ratingSong = async (event, context, callback) => {
+  await ratingSongHandler(event, context, callback);
 };
