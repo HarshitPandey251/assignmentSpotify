@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { CREATE_NEW_ARTIST_API } from "../components/API";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function createArtist(artistname, dob, bio) {
-  return fetch(CREATE_NEW_ARTIST_API, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
-    },
-    body: JSON.stringify({
-      artistname,
-      dob,
-      bio,
-    }),
-  });
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(CREATE_NEW_ARTIST_API, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+      body: JSON.stringify({
+        artistname,
+        dob,
+        bio,
+      }),
+    });
+  }
 }
 
 const AddArtist = ({ setshowPopUp }) => {
@@ -30,8 +34,10 @@ const AddArtist = ({ setshowPopUp }) => {
       if (status) {
         setIsSubmitting(false);
         setshowPopUp(false);
+        toast.success("Artist Created!", { autoClose: 2000 });
       } else {
         setIsSubmitting(false);
+        toast.success(message, { autoClose: 2000 });
       }
     } catch (e) {
       setIsSubmitting(false);
@@ -134,6 +140,7 @@ const AddArtist = ({ setshowPopUp }) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

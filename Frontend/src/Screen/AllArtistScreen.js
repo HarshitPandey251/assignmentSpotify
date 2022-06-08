@@ -1,7 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { FETCH_ARTIST_API } from "../components/API";
+import "react-toastify/dist/ReactToastify.css";
+
+function getAllArtist() {
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(FETCH_ARTIST_API, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+    });
+  }
+}
 
 const AllArtistScreen = () => {
+  const [artistdata, setArtist] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setIsSubmitting(true);
+    async function fetchData() {
+      try {
+        const response = await getAllArtist();
+        const { status, artistDetail } = await response.json();
+
+        if (status) {
+          setArtist(artistDetail);
+          setIsSubmitting(false);
+        } else if (status === false) {
+          setIsSubmitting(false);
+        } else {
+          setIsSubmitting(false);
+        }
+      } catch (e) {
+        setIsSubmitting(false);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="w-3/4 mr-auto ml-auto mt-10">
       <table class="min-w-full">
@@ -28,39 +65,19 @@ const AllArtistScreen = () => {
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-gray-100 border-b">
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Mark
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Otto
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              @mdo
-            </td>
-          </tr>
-          <tr class="bg-white border-b">
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Jacob
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Thornton
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              @fat
-            </td>
-          </tr>
-          <tr class="bg-gray-100 border-b">
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Jacob
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              Thornton
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              @fat
-            </td>
-          </tr>
+          {artistdata?.map((item, index) => (
+            <tr class="bg-gray-100 border-b" key={index}>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {item?.ArtistName}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {item?.Dob}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {item?.Bio}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -5,29 +5,35 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import AddArtist from "../components/AddArtist";
 import { CREATE_NEW_SONG_API, FETCH_ARTIST_API } from "../components/API";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function createSong(SongName, ReleaseDate, CoverUrl, ArtistId) {
-  return fetch(CREATE_NEW_SONG_API, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
-    },
-    body: JSON.stringify({
-      SongName,
-      ReleaseDate,
-      CoverUrl,
-      ArtistId,
-    }),
-  });
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(CREATE_NEW_SONG_API, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+      body: JSON.stringify({
+        SongName,
+        ReleaseDate,
+        CoverUrl,
+        ArtistId,
+      }),
+    });
+  }
 }
 
 function getAllArtist() {
-  return fetch(FETCH_ARTIST_API, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
-    },
-  });
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(FETCH_ARTIST_API, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+    });
+  }
 }
 
 const AddSong = () => {
@@ -70,8 +76,10 @@ const AddSong = () => {
       if (status) {
         setIsSubmitting(false);
         setshowPopUp(false);
+        toast.success("Song Created!", { autoClose: 2000 });
       } else {
         setIsSubmitting(false);
+        toast.success(message, { autoClose: 2000 });
       }
     } catch (e) {
       setIsSubmitting(false);
@@ -94,15 +102,6 @@ const AddSong = () => {
       })
       .catch((err) => console.log(err));
   };
-
-  // var newFileName = "Song" + "-" + coverletter.name;
-  // ReactS3Client.uploadFile(coverletter, newFileName)
-  //   .then((data) => {
-  //     createSongAPI(data.location);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
 
   return (
     <>
@@ -173,6 +172,12 @@ const AddSong = () => {
                   onChange={(e) => setCoverLetter(e.target.files[0])}
                 />
               </div>
+              <label
+                className="block md:text-left mb-1 md:mb-0 pr-4 mt-2"
+                for="inline-password"
+              >
+                {coverletter?.name}
+              </label>
             </div>
           </div>
 
@@ -225,6 +230,7 @@ const AddSong = () => {
         </form>
       </div>
       {showpopup === true && <AddArtist setshowPopUp={setshowPopUp} />}
+      <ToastContainer />
     </>
   );
 };

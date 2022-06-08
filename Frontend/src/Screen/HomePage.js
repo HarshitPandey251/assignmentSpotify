@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ImageCard from "../components/ImageCard";
 import { FETCH_SONG_API } from "../components/API";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function getAllSong() {
-  return fetch(FETCH_SONG_API, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
-    },
-  });
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(FETCH_SONG_API, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+    });
+  }
 }
 
 const HomePage = () => {
@@ -23,15 +27,14 @@ const HomePage = () => {
     async function fetchData() {
       try {
         const response = await getAllSong();
-        const { status, getallsongDetails } = await response.json();
+        const { status, message, getallsongDetails } = await response.json();
 
         if (status) {
           setallSong(getallsongDetails);
           setIsSubmitting(false);
-        } else if (status === false) {
-          setIsSubmitting(false);
         } else {
           setIsSubmitting(false);
+          toast.success(message, { autoClose: 2000 });
         }
       } catch (e) {
         setIsSubmitting(false);
@@ -86,6 +89,7 @@ const HomePage = () => {
           <ImageCard key={image.id} image={image} />
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };
