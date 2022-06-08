@@ -5,10 +5,6 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import AddArtist from "../components/AddArtist";
 import { CREATE_NEW_SONG_API, FETCH_ARTIST_API } from "../components/API";
-import S3 from "react-aws-s3";
-import { Config } from "../S3/aws";
-
-const ReactS3Client = new S3(Config);
 
 function createSong(SongName, ReleaseDate, CoverUrl, ArtistId) {
   return fetch(CREATE_NEW_SONG_API, {
@@ -53,7 +49,6 @@ const AddSong = () => {
 
         if (status) {
           setArtist(artistDetail);
-          console.log(artistDetail);
           setIsSubmitting(false);
         } else if (status === false) {
           setIsSubmitting(false);
@@ -84,15 +79,30 @@ const AddSong = () => {
   };
 
   const uploadImage = () => {
-    var newFileName = "Song" + "-" + coverletter.name;
-    ReactS3Client.uploadFile(coverletter, newFileName)
+    const data = new FormData();
+    data.append("file", coverletter);
+    data.append("upload_preset", "asqhr6fl");
+    data.append("cloud_name", "harshitpandey251");
+
+    fetch("https://api.cloudinary.com/v1_1/harshitpandey251/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((resp) => resp.json())
       .then((data) => {
-        createSongAPI(data.location);
+        createSongAPI(data.url);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => console.log(err));
   };
+
+  // var newFileName = "Song" + "-" + coverletter.name;
+  // ReactS3Client.uploadFile(coverletter, newFileName)
+  //   .then((data) => {
+  //     createSongAPI(data.location);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 
   return (
     <>
