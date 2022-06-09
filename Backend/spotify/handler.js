@@ -2,6 +2,7 @@
 // Artist API
 const createArtistHandler = require("./handlerfunction/Artist/createArtist");
 const fetchArtistHandler = require("./handlerfunction/Artist/fetchArtist");
+const fetchAllArtistHandler = require("./handlerfunction/Artist/fetchAllArtist");
 
 // User API
 const userLoginHandler = require("./handlerfunction/User/userLogin");
@@ -20,6 +21,10 @@ module.exports.createArtist = async (event, context, callback) => {
 
 module.exports.fetchArtist = async (event, context, callback) => {
   await fetchArtistHandler(event, context, callback);
+};
+
+module.exports.fetchAllArtist = async (event, context, callback) => {
+  await fetchAllArtistHandler(event, context, callback);
 };
 
 module.exports.userLogin = async (event, context, callback) => {

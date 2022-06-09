@@ -2,7 +2,7 @@ const connection = require("../../database");
 const { createResponse } = require("../../response/response");
 const jwt = require("jsonwebtoken");
 
-const fetchArtistHandler = async (event, context, callback) => {
+const fetchAllArtistHandler = async (event, context, callback) => {
   try {
     var token = event.headers.Authorization?.split(" ")[1];
     if (!token) {
@@ -29,12 +29,7 @@ const fetchArtistHandler = async (event, context, callback) => {
           connection.getConnection((error, connections) => {
             if (error) throw error;
             connections.query(
-              `SELECT Artist.ArtistName, Artist.Dob, Artist.Bio, group_concat(Song.songName) as songName FROM ArtistSong
-              INNER JOIN Artist
-                ON Artist.ID = ArtistSong.artistId
-              INNER JOIN Song
-                ON Song.ID = ArtistSong.songId
-              group by Artist.ArtistName`,
+              `SELECT * from Artist`,
               function (err, result, fields) {
                 if (err) {
                   reject(err);
@@ -78,4 +73,4 @@ const fetchArtistHandler = async (event, context, callback) => {
   }
 };
 
-module.exports = fetchArtistHandler;
+module.exports = fetchAllArtistHandler;

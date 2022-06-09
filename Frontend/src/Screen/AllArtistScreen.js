@@ -60,6 +60,12 @@ const AllArtistScreen = () => {
               scope="col"
               class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
             >
+              Bio
+            </th>
+            <th
+              scope="col"
+              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+            >
               Songs
             </th>
           </tr>
@@ -75,6 +81,9 @@ const AllArtistScreen = () => {
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 {item?.Bio}
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {item?.songName}
               </td>
             </tr>
           ))}

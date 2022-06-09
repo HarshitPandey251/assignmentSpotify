@@ -25,6 +25,14 @@ functions:
           method: get
           cors: true
 
+  fetchAllArtist:
+    handler: handler.fetchAllArtist
+    events:
+      - http:
+          path: /artist/fetchallartist
+          method: get
+          cors: true
+
   userLogin:
     handler: handler.userLogin
     events:

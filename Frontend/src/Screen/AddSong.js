@@ -4,7 +4,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import AddArtist from "../components/AddArtist";
-import { CREATE_NEW_SONG_API, FETCH_ARTIST_API } from "../components/API";
+import { CREATE_NEW_SONG_API, FETCH_ALL_ARTIST_API } from "../components/API";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,7 +27,7 @@ function createSong(SongName, ReleaseDate, CoverUrl, ArtistId) {
 
 function getAllArtist() {
   if (localStorage.getItem("deltaxusertoken")) {
-    return fetch(FETCH_ARTIST_API, {
+    return fetch(FETCH_ALL_ARTIST_API, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,

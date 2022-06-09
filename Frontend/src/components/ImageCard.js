@@ -57,7 +57,7 @@ const ImageCard = ({ image, isRating, setIsRating }) => {
           {image?.songName}
         </div>
         <div className=" cursor-pointer truncate text-xs text-body md:text-sm">
-          Lewis Capaldi
+          {image?.ArtistName}
         </div>
         <div className=" cursor-pointer truncate text-xs text-body md:text-sm mt-1">
           {image?.releaseDate}
