@@ -11,6 +11,7 @@ const userRegisterHandler = require("./handlerfunction/User/userRegister");
 //Song API
 const createSongHandler = require("./handlerfunction/Song/createSong");
 const fetchSongHandler = require("./handlerfunction/Song/fetchSong");
+const searchSongHandler = require("./handlerfunction/Song/searchSong");
 
 //rating API
 const ratingSongHandler = require("./handlerfunction/Rating/ratingSong");
@@ -45,4 +46,8 @@ module.exports.fetchSong = async (event, context, callback) => {
 
 module.exports.ratingSong = async (event, context, callback) => {
   await ratingSongHandler(event, context, callback);
+};
+
+module.exports.searchSong = async (event, context, callback) => {
+  await searchSongHandler(event, context, callback);
 };

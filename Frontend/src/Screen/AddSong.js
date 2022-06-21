@@ -81,7 +81,7 @@ const AddSong = () => {
       if (status) {
         setIsSubmitting(false);
         setshowPopUp(false);
-        toast.success("Song Created!", { autoClose: 2000 });
+        toast.success(message, { autoClose: 2000 });
       } else {
         setIsSubmitting(false);
         toast.success(message, { autoClose: 2000 });

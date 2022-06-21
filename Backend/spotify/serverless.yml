@@ -73,5 +73,13 @@ functions:
           method: post
           cors: true
 
+  searchSong:
+    handler: handler.searchSong
+    events:
+      - http:
+          path: /searchSong
+          method: post
+          cors: true
+
 plugins:
   - serverless-offline

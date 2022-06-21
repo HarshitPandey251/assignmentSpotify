@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ImageCard from "../components/ImageCard";
-import { FETCH_SONG_API } from "../components/API";
+import { FETCH_SONG_API, SEARCH_SONG } from "../components/API";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,11 +17,26 @@ function getAllSong() {
   }
 }
 
+function searchSongFunction(searchfield) {
+  if (localStorage.getItem("deltaxusertoken")) {
+    return fetch(SEARCH_SONG, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("deltaxusertoken")}`,
+      },
+      body: JSON.stringify({
+        searchfield,
+      }),
+    });
+  }
+}
+
 const HomePage = () => {
   const [allsong, setallSong] = useState([]);
   const [userupdated, setUserUpdated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRating, setIsRating] = useState(false);
+  const [searchfield, setSearchField] = useState("");
 
   useEffect(() => {
     setIsSubmitting(true);
@@ -45,6 +60,34 @@ const HomePage = () => {
     fetchData();
   }, [userupdated, isRating]);
 
+  const searchSongTrigger = async () => {
+    if (searchfield === "") {
+      const response = await getAllSong();
+      const { status, message, getallsongDetails } = await response.json();
+
+      if (status) {
+        setallSong(getallsongDetails);
+        setIsSubmitting(false);
+      } else {
+        setIsSubmitting(false);
+        toast.success(message, { autoClose: 2000 });
+      }
+    } else {
+      try {
+        const response = await searchSongFunction(searchfield);
+        const { status, message, getallsongDetails } = await response.json();
+        if (status) {
+          setallSong(getallsongDetails);
+          setIsSubmitting(false);
+        } else {
+          setIsSubmitting(false);
+        }
+      } catch (e) {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
   return (
     <div className="ml-10 mr-10">
       <div className="flex justify-between mt-5">
@@ -56,11 +99,13 @@ const HomePage = () => {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="button-addon2"
+              onChange={(value) => setSearchField(value.target.value)}
             />
             <button
               className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
               type="button"
               id="button-addon2"
+              onClick={() => searchSongTrigger()}
             >
               <svg
                 aria-hidden="true"

@@ -32,6 +32,37 @@ const createSongHandler = async (event, context, callback) => {
         );
       } else {
         //promise to create anchor
+        const verifySongFromSongName = new Promise((resolve, reject) => {
+          //insert anchor into database with roleId = 1
+          connection.getConnection((error, connections) => {
+            if (error) throw error;
+            connections.query(
+              `SELECT songName FROM Song WHERE songName = "${SongName}"`,
+              function (err, result, fields) {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(result);
+                }
+                connections.destroy();
+              }
+            );
+          });
+        });
+
+        const verifySongFromSongNameAPI = await verifySongFromSongName;
+
+        if (verifySongFromSongNameAPI) {
+          return callback(
+            null,
+            createResponse(400, {
+              status: true,
+              message: "Song is Already Created",
+            })
+          );
+        }
+
+        //promise to create anchor
         const createSong = new Promise((resolve, reject) => {
           //insert anchor into database with roleId = 1
           connection.getConnection((error, connections) => {
